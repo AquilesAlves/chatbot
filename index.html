@@ -4,21 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />   
 </head>
 <body>
     <div class="container">
         <header class="cabecalho">
-            <h1 class="titulo">Olá!</h1>
+            <h1 class="titulo">Olá, humano!</h1>
             <h2 class="subtitulo">Como posso te ajudar?</h2>
         </header>
         
         <ul class="sugestoes">
             <li class="item">
                 <p class="texto">Faça um setup para trabalho remoto abaixo de R$1000</p>
+                <span class="material-symbols-rounded">draw</span>
+            </li>
+            <li class="item">
+                <p class="texto">Como posso melhorar meu nivel de desenvolvimento web em 2026?</p>
+                <span class="material-symbols-rounded">lightbulb</span>
+            </li>
+            <li class="item">
+                <p class="texto">Sugira ferramentas uteis para JavaScript</p>
+                <span class="material-symbols-rounded">explore</span>
+            </li>
+            <li class="item">
+                <p class="texto">Crie um componente React JS para uma To Do List</p>
+                <span class="material-symbols-rounded">code_blocks</span>
             </li>
         </ul>
-    
 
+        <div class="perguntasContainer">
+            <div class="perguntas">
+                <form action="#" class="formulario">
+                    <input type="text" placeholder="Pergunte ao Gemini" class="inputPergunta" required>
+                    <div class="acoes">
+                        <button id="arquivo" type="button" class="material-symbols-rounded">attach_file</button>
+                        <button id="enviar" class="material-symbols-rounded">arrow_upward</button>
+                    </div>
+                </form>
+
+
+                <button id="temas" class="material-symbols-rounded">light_mode</button>
+                <button id="deletar" class="material-symbols-rounded">delete</button>
+
+                <p class="aviso">Gemini pode cometer erros, então verifique duas vezes.</p>
+
+
+
+            </div>
+        </div>
     </div>
 </body>
 </html>

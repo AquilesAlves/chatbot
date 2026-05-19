@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    
+}
+
+:root{
+    --texto: #edf3ff;
+    --subtitulo: #97a7ca;
+    --placeholder: #c3cdde;
+    --primaria: #101623;
+    --secundaria: #283045;
+    --secundaria-hover: #333e58;
+    --barra-scroll: #626a7f;
+}
+
+body{
+    color: var(--texto);
+    background-color: var(--primaria);
+}
+
+.container{
+    padding: 32px 0 60px;
+}
+
+.container :where(.cabecalho, .sugestoes, .perguntasContainer, .aviso){
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
+    max-width: 980px;
+}
+
+.container .cabecalho{
+    margin-top: 4vh;
+}
+
+.cabecalho .titulo{
+    font-size: 3rem;
+    width: fit-content;
+    background: linear-gradient(to right, #1d7efd, #8f6fff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+}
+
+.cabecalho .subtitulo{
+    font-size: 2.6rem;
+    margin-top: -5px;
+    color: var(--subtitulo);
+}
+
+.container .sugestoes{
+    display: flex;
+    gap: 15px;
+    margin-top: 9.5vh;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.sugestoes .item{
+    width: 228px;
+    padding: 18px;
+    flex-shrink: 0;
+    display: flex;
+    cursor: pointer;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    border-radius: 12px;
+    background-color: var(--secundaria);
+    transition: 0.3s ease;
+}
+
+.sugestoes .item:hover{
+    background-color: var(--secundaria-hover);
+}
+
+.sugestoes .item .texto{
+    font-size: 1.1rem;
+}
+
+.sugestoes .item span{
+    height: 45px;
+    width: 45px;
+    margin-top: 35px;
+    display: flex;
+    align-self: flex-end;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #1d7efd;
+    background-color: var(--primaria);
+}
+
+.sugestoes .item:nth-child(2) span{
+    color: #28a745;
+}
+.sugestoes .item:nth-child(3) span{
+    color: #ffc107;
+}
+.sugestoes .item:nth-child(4) span{
+    color: #6f42c1;
+}
