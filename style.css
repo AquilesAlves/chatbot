@@ -27,7 +27,7 @@ body{
     padding: 32px 0 60px;
 }
 
-.container :where(.cabecalho, .sugestoes, .perguntasContainer, .aviso){
+.container :where(.cabecalho, .sugestoes, .mensagem, .perguntasContainer, .aviso){
     margin: 0 auto;
     width: 100%;
     padding: 0 20px;
@@ -61,6 +61,10 @@ body{
     list-style: none;
     overflow-x: auto;
     scrollbar-width: none;
+}
+
+.container :is(.cabecalho, .sugestoes){
+    display: none;
 }
 
 .sugestoes .item{
@@ -106,4 +110,137 @@ body{
 }
 .sugestoes .item:nth-child(4) span{
     color: #6f42c1;
+}
+
+.container .conversaContainer{
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.conversaContainer .mensagem{
+    display: flex;
+    gap: 11px;
+    align-items: center;
+}
+
+.conversaContainer .bot .avatar{
+    height: 43px;
+    width: 43px;
+    flex-shrink: 0;
+    padding: 6px;
+    align-self: flex-start;
+    margin-right: -7px;
+    border-radius: 50%;
+    background-color: var(--secundaria);
+    border: 1px solid var(--secundaria-hover);
+}
+
+.conversaContainer .mensagem .mensagemTexto{
+    padding: 3px 16px;
+    word-wrap: break-word;
+    white-space: pre-line;
+}
+
+.conversaContainer .bot{
+    margin: 9px auto;
+}
+
+.conversaContainer .usuario{
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.conversaContainer .usuario .mensagemTexto{
+    padding: 12px 16px;
+    max-width: 75%;
+    border-radius: 13px 13px 3px 13px;
+    background-color: var(--secundaria);
+}
+
+
+.perguntasContainer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 16px 0;
+    background: var(--primaria);
+}
+
+.perguntasContainer :where(.perguntasEnvelope, .formulario, .acoes){
+    display: flex;
+    gap: 12px;
+    height: 56px;
+    align-items: center;
+}
+
+.perguntasEnvelope .formulario{
+    width: 100%;
+    height: 100%;
+    border-radius: 130px;
+    background-color: var(--secundaria);
+}
+
+.formulario .inputPergunta{
+    height: 100%;
+    width: 100%;
+    background: none;
+    outline: none;
+    border: none;
+    font-size: 1rem;
+    padding-left: 24px;
+    color: var(--texto);
+}
+
+.formulario .inputPergunta::placeholder{
+    color: var(--placeholder);
+}
+
+.perguntasEnvelope button{
+    width: 56px;
+    height: 100%;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    color: var(--texto);
+    background-color: var(--secundaria);
+    transition: 0.3s ease;
+}
+
+.perguntasEnvelope button:hover{
+    background-color: var(--secundaria-hover);
+}
+
+.formulario .acoes{
+    gap: 5px;
+    margin-right: 7px;
+}
+
+.formulario .acoes button{
+    height: 45px;
+    width: 45px;
+}
+
+.formulario #enviar{
+    color: #fff;
+    display: none;
+    background-color: #1d7efd;
+}
+
+.formulario .inputPergunta:valid ~ .acoes #enviar{
+    display: block;
+}
+
+.formulario #enviar:hover{
+    background-color: #0264e3;
+}
+
+.perguntasContainer .aviso{
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 16px 20px 0;
+    color: var(--placeholder);
 }
