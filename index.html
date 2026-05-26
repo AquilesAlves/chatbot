@@ -40,7 +40,14 @@
                 <form action="#" class="formulario">
                     <input type="text" placeholder="Pergunte ao Gemini" class="inputPergunta" required>
                     <div class="acoes">
-                        <button id="arquivo" type="button" class="material-symbols-rounded">attach_file</button>
+                        
+                        <div class="uparArquivo active imgEnviada">
+                            <img src="gemini.svg" alt="" class="preview">
+                            <button type="button" class="arquivoIcone material-symbols-rounded">description</button>
+                            <button id="arquivo" type="button" class="material-symbols-rounded">attach_file</button>
+                            <button id="cancelar" type="button" class="material-symbols-rounded">close</button>
+                        </div>
+
                         <button id="enviar" class="material-symbols-rounded">arrow_upward</button>
                     </div>
                 </form>

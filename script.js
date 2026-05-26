@@ -3,7 +3,7 @@ const conversaContainer = document.querySelector(".conversaContainer")
 const formulario = document.querySelector(".formulario")
 const inputPergunta = formulario.querySelector(".inputPergunta")
 
-const API_KEY = ''
+const API_KEY = '' //AIzaSyCRIBUjRM z4cPUNY2HvJusWu4 59JSrqCCI
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${API_KEY}`
 
 let mensagemUsuario = ""
