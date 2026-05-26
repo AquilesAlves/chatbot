@@ -3,7 +3,7 @@ const conversaContainer = document.querySelector(".conversaContainer")
 const formulario = document.querySelector(".formulario")
 const inputPergunta = formulario.querySelector(".inputPergunta")
 
-const API_KEY = '#'
+const API_KEY = ''
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${API_KEY}`
 
 let mensagemUsuario = ""
@@ -25,7 +25,7 @@ const digitandoEfeito = (text, textoElemento, msgBotDiv) => {
     let palavraIndex = 0
 
     const digitandoIntervalo = setInterval(() => {
-        if (palavraIndex < palavras.lenght) {
+        if (palavraIndex < palavras.length) {
             textoElemento.textContent += (palavraIndex === 0 ? "" : " ") + palavras[palavraIndex++]
             msgBotDiv.classList.remove('carregando')
             scrollAutomatico()
