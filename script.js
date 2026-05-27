@@ -2,6 +2,8 @@ const container = document.querySelector(".container")
 const conversaContainer = document.querySelector(".conversaContainer")
 const formulario = document.querySelector(".formulario")
 const inputPergunta = formulario.querySelector(".inputPergunta")
+const arquivoInput = formulario.querySelector("#arquivoInput")
+const uparArquivo = formulario.querySelector(".uparArquivo")
 
 const API_KEY = '' //AIzaSyCRIBUjRM z4cPUNY2HvJusWu4 59JSrqCCI
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${API_KEY}`
@@ -91,4 +93,25 @@ const enviaFormulario = (e) => {
     }, 600);
 }
 
+arquivoInput.addEventListener('change', () => {
+    const arquivo = arquivoInput.files[0]
+    if (!arquivo) return
+
+    const isImage = arquivo.type.startsWith('image/')
+    const leitor = new FileReader()
+    leitor.readAsDataURL(arquivo)
+
+    leitor.onload = (e) => {
+        arquivoInput.value = ""
+        uparArquivo.querySelector('.preview').src = e.target.result
+        uparArquivo.classList.add('active', isImage ? 'imgEnviada' : 'arquivoEnviado')
+    }
+
+})
+
+document.querySelector('#cancelar').addEventListener('click', () => {
+    uparArquivo.classList.remove('active', 'imgEnviada', 'arquivoEnviado')
+})
+
 formulario.addEventListener("submit", enviaFormulario)
+formulario.querySelector('#arquivo').addEventListener('click', () => arquivoInput.click())

@@ -41,8 +41,9 @@
                     <input type="text" placeholder="Pergunte ao Gemini" class="inputPergunta" required>
                     <div class="acoes">
                         
-                        <div class="uparArquivo active imgEnviada">
+                        <div class="uparArquivo">
                             <img src="gemini.svg" alt="" class="preview">
+                            <input type="file" accept="image/*, .pdf, .txt, .csv" id="arquivoInput" hidden>
                             <button type="button" class="arquivoIcone material-symbols-rounded">description</button>
                             <button id="arquivo" type="button" class="material-symbols-rounded">attach_file</button>
                             <button id="cancelar" type="button" class="material-symbols-rounded">close</button>
