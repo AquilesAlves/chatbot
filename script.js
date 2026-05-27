@@ -15,7 +15,7 @@ const sugestoes         = document.querySelectorAll(".sugestoes .item")
 // CONFIGURAÇÃO DA API GEMINI
 // =============================================
 const CHAVE_API = '' //AIzaSyCRI BUjRMz4cPUNY2HvJu sWu459JSrqCCI
-const URL_API   = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5flash:generateContent?key=${CHAVE_API}`
+const URL_API   = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${CHAVE_API}`
 
 // =============================================
 // ESTADO DO CHAT
@@ -40,22 +40,25 @@ const rolarParaBaixo = () =>
 // Ativa o modo "conversa" — esconde cabeçalho e sugestões
 const ativarConversa = () => container.classList.add('conversa-ativa')
 
+
 // Efeito de digitação palavra por palavra
 const efetoDigitacao = (texto, elementoTexto, divBot) => {
-    elementoTexto.textContent = ''
-    const palavras = texto.split(' ')
+    elementoTexto.innerHTML = ''
     let indice = 0
 
     const intervalo = setInterval(() => {
-        if (indice < palavras.length) {
-            elementoTexto.textContent += (indice === 0 ? '' : ' ') + palavras[indice++]
+        if (indice < texto.length) {
+            indice++
+            // Atualiza o HTML completo a cada caractere (nunca quebra as tags)
+            elementoTexto.innerHTML = texto.slice(0, indice)
             divBot.classList.remove('carregando')
             rolarParaBaixo()
         } else {
             clearInterval(intervalo)
         }
-    }, 40)
+    }, 20) // 20ms por caractere fica mais fluido que 40ms por palavra
 }
+
 
 // =============================================
 // COMUNICAÇÃO COM A API
@@ -88,8 +91,11 @@ const gerarResposta = async (divBot) => {
         if (!resposta.ok) throw new Error(json.error.message)
 
         // Remove marcações **negrito** antes de exibir
+        // depois
         const textoResposta = json.candidates[0].content.parts[0].text
-            .replace(/\*\*([^*]+)\*\*/g, "$1")
+            .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")  // **negrito**
+            .replace(/\*([^*]+)\*/g, "<em>$1</em>")               // *itálico*
+            .replace(/`([^`]+)`/g, "<code>$1</code>")             // `código`
             .trim()
 
         efetoDigitacao(textoResposta, elementoTexto, divBot)
@@ -206,7 +212,6 @@ document.querySelector('#cancelar').addEventListener('click', () => {
 // =============================================
 
 botaoDeletar.addEventListener('click', () => {
-    if (!confirm('Apagar toda a conversa?')) return
 
     // Limpa o histórico e a tela
     historicoChat.length = 0
