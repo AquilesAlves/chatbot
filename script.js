@@ -15,7 +15,7 @@ const sugestoes         = document.querySelectorAll(".sugestoes .item")
 // CONFIGURAÇÃO DA API GEMINI
 // =============================================
 const CHAVE_API = '' //AIzaSyCRI BUjRMz4cPUNY2HvJu sWu459JSrqCCI
-const URL_API   = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${CHAVE_API}`
+const URL_API   = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5flash:generateContent?key=${CHAVE_API}`
 
 // =============================================
 // ESTADO DO CHAT
