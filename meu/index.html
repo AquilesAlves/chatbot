@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt-br" data-tema="escuro">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />   
 </head>
 <body>
     <div class="container">
@@ -13,18 +13,18 @@
             <h1 class="titulo">Olá, humano!</h1>
             <h2 class="subtitulo">Como posso te ajudar?</h2>
         </header>
-
+        
         <ul class="sugestoes">
             <li class="item">
                 <p class="texto">Faça um setup para trabalho remoto abaixo de R$1000</p>
                 <span class="material-symbols-rounded">draw</span>
             </li>
             <li class="item">
-                <p class="texto">Como posso melhorar meu nível de desenvolvimento web em 2026?</p>
+                <p class="texto">Como posso melhorar meu nivel de desenvolvimento web em 2026?</p>
                 <span class="material-symbols-rounded">lightbulb</span>
             </li>
             <li class="item">
-                <p class="texto">Sugira ferramentas úteis para JavaScript</p>
+                <p class="texto">Sugira ferramentas uteis para JavaScript</p>
                 <span class="material-symbols-rounded">explore</span>
             </li>
             <li class="item">
@@ -40,19 +40,22 @@
                 <form action="#" class="formulario">
                     <input type="text" placeholder="Pergunte ao Gemini" class="inputPergunta" required>
                     <div class="acoes">
+                        
                         <div class="uparArquivo">
-                            <img src="" alt="" class="preview" style="display:none">
+                            <img src="gemini.svg" alt="" class="preview">
                             <input type="file" accept="image/*, .pdf, .txt, .csv" id="arquivoInput" hidden>
                             <button type="button" class="arquivoIcone material-symbols-rounded">description</button>
                             <button id="arquivo" type="button" class="material-symbols-rounded">attach_file</button>
                             <button id="cancelar" type="button" class="material-symbols-rounded">close</button>
                         </div>
+
                         <button id="enviar" class="material-symbols-rounded">arrow_upward</button>
                     </div>
                 </form>
 
                 <button id="temas" class="material-symbols-rounded">light_mode</button>
                 <button id="deletar" class="material-symbols-rounded">delete</button>
+
             </div>
 
             <p class="aviso">Gemini pode cometer erros, então verifique duas vezes.</p>

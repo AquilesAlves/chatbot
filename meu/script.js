@@ -1,32 +1,34 @@
 // =============================================
 // ELEMENTOS DA PÁGINA
 // =============================================
-const container         = document.querySelector(".container")
-const conversaContainer = document.querySelector(".conversaContainer")
-const formulario        = document.querySelector(".formulario")
-const campoPergunta     = formulario.querySelector(".inputPergunta")
-const inputArquivo      = formulario.querySelector("#arquivoInput")
-const areaUpload        = formulario.querySelector(".uparArquivo")
-const botaoTema         = document.querySelector("#temas")
-const botaoDeletar      = document.querySelector("#deletar")
-const sugestoes         = document.querySelectorAll(".sugestoes .item")
+const container          = document.querySelector(".container")
+const conversaContainer  = document.querySelector(".conversaContainer")
+const formulario         = document.querySelector(".formulario")
+const campoPergunta      = formulario.querySelector(".inputPergunta")
+const inputArquivo       = formulario.querySelector("#arquivoInput")
+const areaUpload         = formulario.querySelector(".uparArquivo")
 
 // =============================================
 // CONFIGURAÇÃO DA API GEMINI
 // =============================================
-const CHAVE_API = '' //AIzaSyCRI BUjRMz4cPUNY2HvJu sWu459JSrqCCI
-const URL_API   = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${CHAVE_API}`
+const CHAVE_API = ''  //AIzaSyCRIB UjRMz4cPUNY2HvJusWu45 9JSrqCCI
+const URL_API   = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${CHAVE_API}`
 
 // =============================================
 // ESTADO DO CHAT
 // =============================================
-const dadosEnvio  = { mensagem: '', arquivo: null }
+
+// Dados do envio atual (mensagem de texto + arquivo opcional)
+const dadosEnvio = { mensagem: '', arquivo: null }
+
+// Histórico completo da conversa (enviado à API a cada mensagem)
 const historicoChat = []
 
 // =============================================
 // FUNÇÕES AUXILIARES
 // =============================================
 
+// Cria um elemento de mensagem com as classes passadas
 const criarMensagem = (html, ...classes) => {
     const div = document.createElement('div')
     div.classList.add('mensagem', ...classes)
@@ -34,13 +36,11 @@ const criarMensagem = (html, ...classes) => {
     return div
 }
 
+// Rola o container até o final automaticamente
 const rolarParaBaixo = () =>
     container.scrollTo({ top: container.scrollHeight, behavior: "smooth" })
 
-// Ativa o modo "conversa" — esconde cabeçalho e sugestões
-const ativarConversa = () => container.classList.add('conversa-ativa')
-
-// Efeito de digitação palavra por palavra
+// Efeito de digitação: exibe o texto palavra por palavra
 const efetoDigitacao = (texto, elementoTexto, divBot) => {
     elementoTexto.textContent = ''
     const palavras = texto.split(' ')
@@ -64,13 +64,13 @@ const efetoDigitacao = (texto, elementoTexto, divBot) => {
 const gerarResposta = async (divBot) => {
     const elementoTexto = divBot.querySelector('.mensagemTexto')
 
-    // Monta as partes da mensagem do usuário
+    // Monta a mensagem do usuário com texto + arquivo (se houver)
     const partesUsuario = [{ text: dadosEnvio.mensagem }]
     if (dadosEnvio.arquivo) {
         partesUsuario.push({
             inline_data: {
-                data:      dadosEnvio.arquivo.base64,
-                mime_type: dadosEnvio.arquivo.tipoMime
+                data: dadosEnvio.arquivo.base64,       // conteúdo do arquivo em base64
+                mime_type: dadosEnvio.arquivo.tipoMime // ex: "image/png"
             }
         })
     }
@@ -87,24 +87,24 @@ const gerarResposta = async (divBot) => {
         const json = await resposta.json()
         if (!resposta.ok) throw new Error(json.error.message)
 
-        // Remove marcações **negrito** antes de exibir
+        // Remove marcações **negrito** da resposta antes de exibir
         const textoResposta = json.candidates[0].content.parts[0].text
             .replace(/\*\*([^*]+)\*\*/g, "$1")
             .trim()
 
         efetoDigitacao(textoResposta, elementoTexto, divBot)
+
+        // Salva a resposta no histórico para contexto futuro
         historicoChat.push({ role: "model", parts: [{ text: textoResposta }] })
+
+        // Limpa o arquivo após o envio
+        dadosEnvio.arquivo = null
 
     } catch (erro) {
         elementoTexto.textContent = "Erro ao obter resposta. Tente novamente."
-        divBot.classList.remove('carregando')
         console.error(erro)
-    } finally {
-        // Limpa o arquivo após o envio independente de erro
-        dadosEnvio.arquivo = null
-        areaUpload.classList.remove('active', 'imgEnviada', 'arquivoEnviado')
-        areaUpload.querySelector('.preview').src = ''
-        areaUpload.querySelector('.preview').style.display = 'none'
+    } finally{
+        usuarioDados.file = {}
     }
 }
 
@@ -112,28 +112,21 @@ const gerarResposta = async (divBot) => {
 // ENVIO DO FORMULÁRIO
 // =============================================
 
-const enviarMensagem = (textoUsuario) => {
+const enviarFormulario = (e) => {
+    e.preventDefault()
+    const textoUsuario = campoPergunta.value.trim()
     if (!textoUsuario) return
 
     campoPergunta.value = ''
     dadosEnvio.mensagem = textoUsuario
 
-    // Ativa modo conversa (esconde tela inicial)
-    ativarConversa()
-
-    // Monta HTML da mensagem do usuário
-    // Se tiver imagem, exibe ela acima do texto
-    let htmlUsuario = ''
-    if (dadosEnvio.arquivo?.ehImagem) {
-        htmlUsuario += `<img src="data:${dadosEnvio.arquivo.tipoMime};base64,${dadosEnvio.arquivo.base64}" class="imagemEnviada" alt="imagem enviada">`
-    }
-    htmlUsuario += `<p class="mensagemTexto">${textoUsuario}</p>`
-
-    const divUsuario = criarMensagem(htmlUsuario, 'usuario')
+    // Exibe a mensagem do usuário na tela
+    const divUsuario = criarMensagem('<p class="mensagemTexto"></p>', 'usuario')
+    divUsuario.querySelector('.mensagemTexto').textContent = textoUsuario
     conversaContainer.appendChild(divUsuario)
     rolarParaBaixo()
 
-    // Exibe o "carregando" e chama a API após 600ms
+    // Após 600ms, exibe o "carregando" e chama a API
     setTimeout(() => {
         const htmlBot = `<img src="gemini.svg" class="avatar"><p class="mensagemTexto">Só um segundo...</p>`
         const divBot  = criarMensagem(htmlBot, 'bot', 'carregando')
@@ -142,23 +135,6 @@ const enviarMensagem = (textoUsuario) => {
         gerarResposta(divBot)
     }, 600)
 }
-
-const enviarFormulario = (e) => {
-    e.preventDefault()
-    const texto = campoPergunta.value.trim()
-    if (texto) enviarMensagem(texto)
-}
-
-// =============================================
-// SUGESTÕES — clique preenche e envia
-// =============================================
-
-sugestoes.forEach(item => {
-    item.addEventListener('click', () => {
-        const texto = item.querySelector('.texto').textContent
-        enviarMensagem(texto)
-    })
-})
 
 // =============================================
 // UPLOAD DE ARQUIVO / IMAGEM
@@ -177,12 +153,10 @@ inputArquivo.addEventListener('change', () => {
         const base64 = e.target.result.split(',')[1]
 
         // Mostra preview na área de upload
-        const preview = areaUpload.querySelector('.preview')
-        preview.src = e.target.result
-        preview.style.display = 'block'
+        areaUpload.querySelector('.preview').src = e.target.result
         areaUpload.classList.add('active', ehImagem ? 'imgEnviada' : 'arquivoEnviado')
 
-        // Salva para incluir no próximo envio
+        // Salva os dados do arquivo para incluir no próximo envio
         dadosEnvio.arquivo = {
             nome:     arquivo.name,
             base64:   base64,
@@ -192,43 +166,11 @@ inputArquivo.addEventListener('change', () => {
     }
 })
 
-// Cancela o arquivo selecionado
+// Botão de cancelar upload
 document.querySelector('#cancelar').addEventListener('click', () => {
+    usuarioDados = {}
     areaUpload.classList.remove('active', 'imgEnviada', 'arquivoEnviado')
-    const preview = areaUpload.querySelector('.preview')
-    preview.src = ''
-    preview.style.display = 'none'
     dadosEnvio.arquivo = null
-})
-
-// =============================================
-// BOTÃO — DELETAR CONVERSA
-// =============================================
-
-botaoDeletar.addEventListener('click', () => {
-    if (!confirm('Apagar toda a conversa?')) return
-
-    // Limpa o histórico e a tela
-    historicoChat.length = 0
-    conversaContainer.innerHTML = ''
-
-    // Volta para a tela inicial
-    container.classList.remove('conversa-ativa')
-    container.scrollTo({ top: 0, behavior: "smooth" })
-})
-
-// =============================================
-// BOTÃO — ALTERNAR TEMA CLARO / ESCURO
-// =============================================
-
-botaoTema.addEventListener('click', () => {
-    const temaAtual = document.documentElement.getAttribute('data-tema')
-    const novoTema  = temaAtual === 'escuro' ? 'claro' : 'escuro'
-
-    document.documentElement.setAttribute('data-tema', novoTema)
-
-    // Atualiza o ícone do botão
-    botaoTema.textContent = novoTema === 'escuro' ? 'light_mode' : 'dark_mode'
 })
 
 // =============================================

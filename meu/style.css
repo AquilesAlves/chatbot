@@ -1,18 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
+    
 }
 
-/* =============================================
-   TEMAS — dark (padrão) e light
-   ============================================= */
-
-:root,
-[data-tema="escuro"] {
+:root{
     --texto: #edf3ff;
     --subtitulo: #97a7ca;
     --placeholder: #c3cdde;
@@ -20,69 +16,48 @@
     --secundaria: #283045;
     --secundaria-hover: #333e58;
     --barra-scroll: #626a7f;
-    --imagem-borda: #3a4a6b;
 }
 
-[data-tema="claro"] {
-    --texto: #0d1b2a;
-    --subtitulo: #4a5a7a;
-    --placeholder: #8896b0;
-    --primaria: #f0f4ff;
-    --secundaria: #dce4f5;
-    --secundaria-hover: #c8d3ec;
-    --barra-scroll: #a0aec0;
-    --imagem-borda: #b0bedd;
-}
-
-body {
+body{
     color: var(--texto);
     background-color: var(--primaria);
-    transition: background-color 0.3s, color 0.3s;
 }
 
-/* =============================================
-   CONTAINER PRINCIPAL
-   ============================================= */
-
-.container {
+.container{
     overflow-y: auto;
     padding: 32px 0 60px;
-    height: calc(100vh - 127px);
-    scrollbar-color: var(--barra-scroll) transparent;
-    scrollbar-width: thin;
+    max-height: calc(100vh - 127px);
+    scrollbar-color: var(--barra-scroll);
 }
 
-.container :where(.cabecalho, .sugestoes, .mensagem, .perguntasContainer, .aviso) {
+.container :where(.cabecalho, .sugestoes, .mensagem, .perguntasContainer, .aviso){
     margin: 0 auto;
     width: 100%;
     padding: 0 20px;
     max-width: 980px;
 }
 
-/* =============================================
-   CABEÇALHO E SUGESTÕES (tela inicial)
-   ============================================= */
-
-.container .cabecalho {
+.container .cabecalho{
     margin-top: 4vh;
 }
 
-.cabecalho .titulo {
+.cabecalho .titulo{
     font-size: 3rem;
     width: fit-content;
     background: linear-gradient(to right, #1d7efd, #8f6fff);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+
 }
 
-.cabecalho .subtitulo {
+.cabecalho .subtitulo{
     font-size: 2.6rem;
     margin-top: -5px;
     color: var(--subtitulo);
 }
 
-.container .sugestoes {
+.container .sugestoes{
     display: flex;
     gap: 15px;
     margin-top: 9.5vh;
@@ -91,21 +66,11 @@ body {
     scrollbar-width: none;
 }
 
-/* Esconde cabeçalho e sugestões quando conversa está ativa */
-.container.conversa-ativa :is(.cabecalho, .sugestoes) {
+.container :is(.cabecalho, .sugestoes){
     display: none;
 }
 
-/* Mostra cabeçalho e sugestões na tela inicial */
-.container:not(.conversa-ativa) :is(.cabecalho, .sugestoes) {
-    display: flex;
-}
-
-.container:not(.conversa-ativa) .cabecalho {
-    display: block;
-}
-
-.sugestoes .item {
+.sugestoes .item{
     width: 228px;
     padding: 18px;
     flex-shrink: 0;
@@ -116,18 +81,18 @@ body {
     justify-content: space-between;
     border-radius: 12px;
     background-color: var(--secundaria);
-    transition: background-color 0.3s ease;
+    transition: 0.3s ease;
 }
 
-.sugestoes .item:hover {
+.sugestoes .item:hover{
     background-color: var(--secundaria-hover);
 }
 
-.sugestoes .item .texto {
+.sugestoes .item .texto{
     font-size: 1.1rem;
 }
 
-.sugestoes .item span {
+.sugestoes .item span{
     height: 45px;
     width: 45px;
     margin-top: 35px;
@@ -140,28 +105,29 @@ body {
     background-color: var(--primaria);
 }
 
-.sugestoes .item:nth-child(2) span { color: #28a745; }
-.sugestoes .item:nth-child(3) span { color: #ffc107; }
-.sugestoes .item:nth-child(4) span { color: #6f42c1; }
+.sugestoes .item:nth-child(2) span{
+    color: #28a745;
+}
+.sugestoes .item:nth-child(3) span{
+    color: #ffc107;
+}
+.sugestoes .item:nth-child(4) span{
+    color: #6f42c1;
+}
 
-/* =============================================
-   CONVERSA
-   ============================================= */
-
-.container .conversaContainer {
+.container .conversaContainer{
     display: flex;
     gap: 20px;
     flex-direction: column;
 }
 
-.conversaContainer .mensagem {
+.conversaContainer .mensagem{
     display: flex;
     gap: 11px;
     align-items: center;
 }
 
-/* Avatar do bot */
-.conversaContainer .bot .avatar {
+.conversaContainer .bot .avatar{
     height: 43px;
     width: 43px;
     flex-shrink: 0;
@@ -173,56 +139,40 @@ body {
     border: 1px solid var(--secundaria-hover);
 }
 
-.conversaContainer .bot.carregando .avatar {
+.conversaContainer .bot.carregando .avatar{
     animation: rotate 3s linear infinite;
 }
 
 @keyframes rotate {
-    100% { transform: rotate(360deg); }
+    100%{
+        transform: rotate(360deg);
+    }
 }
 
-.conversaContainer .mensagem .mensagemTexto {
+.conversaContainer .mensagem .mensagemTexto{
     padding: 3px 16px;
     word-wrap: break-word;
     white-space: pre-line;
 }
 
-.conversaContainer .bot {
+.conversaContainer .bot{
     margin: 9px auto;
 }
 
-/* Mensagem do usuário */
-.conversaContainer .usuario {
+.conversaContainer .usuario{
     flex-direction: column;
     align-items: flex-end;
 }
 
-.conversaContainer .usuario .mensagemTexto {
+.conversaContainer .usuario .mensagemTexto{
     padding: 12px 16px;
     max-width: 75%;
     border-radius: 13px 13px 3px 13px;
     background-color: var(--secundaria);
 }
 
-/* =============================================
-   IMAGEM ENVIADA PELO USUÁRIO NO CHAT
-   ============================================= */
 
-.conversaContainer .usuario .imagemEnviada {
-    max-width: 280px;
-    max-height: 280px;
-    border-radius: 12px 12px 3px 12px;
-    object-fit: cover;
-    border: 2px solid var(--imagem-borda);
-    margin-bottom: 4px;
-    display: block;
-}
-
-/* =============================================
-   ÁREA DE INPUT / FORMULÁRIO
-   ============================================= */
-
-.perguntasContainer {
+.perguntasContainer{
     position: fixed;
     bottom: 0;
     left: 50%;
@@ -230,32 +180,30 @@ body {
     width: 100%;
     padding: 16px 0;
     background: var(--primaria);
-    transition: background-color 0.3s;
 }
 
-.perguntasContainer :where(.perguntasEnvelope, .formulario, .acoes) {
+.perguntasContainer :where(.perguntasEnvelope, .formulario, .acoes){
     display: flex;
     gap: 12px;
     height: 56px;
     align-items: center;
 }
 
-.perguntasEnvelope {
+.perguntasEnvelope{
     max-width: 980px;
     margin: 0 auto;
     width: 100%;
     padding: 0 20px;
 }
 
-.perguntasEnvelope .formulario {
+.perguntasEnvelope .formulario{
     width: 100%;
     height: 100%;
     border-radius: 130px;
     background-color: var(--secundaria);
-    transition: background-color 0.3s;
 }
 
-.formulario .inputPergunta {
+.formulario .inputPergunta{
     height: 100%;
     width: 100%;
     background: none;
@@ -266,11 +214,11 @@ body {
     color: var(--texto);
 }
 
-.formulario .inputPergunta::placeholder {
+.formulario .inputPergunta::placeholder{
     color: var(--placeholder);
 }
 
-.perguntasEnvelope button {
+.perguntasEnvelope button{
     width: 56px;
     height: 100%;
     border: none;
@@ -280,14 +228,14 @@ body {
     flex-shrink: 0;
     color: var(--texto);
     background-color: var(--secundaria);
-    transition: background-color 0.3s ease, color 0.3s;
+    transition: 0.3s ease;
 }
 
-.perguntasEnvelope :is(button:hover, .arquivoIcone, #cancelar) {
+.perguntasEnvelope :is(button:hover, .arquivoIcone, #cancelar){
     background-color: var(--secundaria-hover);
 }
 
-.formulario .acoes {
+.formulario .acoes{
     gap: 5px;
     margin-right: 7px;
 }
@@ -298,21 +246,21 @@ body {
     width: 45px;
 }
 
-.formulario #enviar {
+.formulario #enviar{
     color: #fff;
     display: none;
     background-color: #1d7efd;
 }
 
-.formulario .inputPergunta:valid ~ .acoes #enviar {
+.formulario .inputPergunta:valid ~ .acoes #enviar{
     display: block;
 }
 
-.formulario #enviar:hover {
+.formulario #enviar:hover{
     background-color: #0264e3;
 }
 
-.formulario .uparArquivo :where(button, img) {
+.formulario .uparArquivo :where(button, img){
     position: absolute;
     border-radius: 50%;
     object-fit: cover;
@@ -322,23 +270,23 @@ body {
 .formulario .uparArquivo #arquivo,
 .formulario .uparArquivo.active.imgEnviada img,
 .formulario .uparArquivo.active.arquivoEnviado .arquivoIcone,
-.formulario .uparArquivo.active:hover #cancelar {
+.formulario .uparArquivo.active:hover #cancelar{
     display: block;
 }
 
-.formulario .uparArquivo.active #arquivo {
+.formulario .uparArquivo.active #arquivo{
     display: none;
 }
 
-.formulario #cancelar {
+.formulario #cancelar{
     color: #d62939;
 }
 
-.formulario .arquivoIcone {
+.formulario .arquivoIcone{
     color: #1d7efd;
 }
 
-.perguntasContainer .aviso {
+.perguntasContainer .aviso{
     text-align: center;
     font-size: 0.9rem;
     padding: 16px 20px 0;
